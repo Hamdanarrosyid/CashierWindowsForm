@@ -35,6 +35,7 @@ namespace CashierMigration
                 "id INT PRIMARY KEY NOT NULL AUTO_INCREMENT," +
                 "name VARCHAR(100) NOT NULL," +
                 "email VARCHAR(100) NOT NULL,"+
+                "password VARCHAR(100) NOT NULL," +
                 "gender ENUM('man', 'woman') NOT NULL," +
                 "address VARCHAR(200)"+
                 ")";
@@ -49,9 +50,10 @@ namespace CashierMigration
             }
             catch (MySqlException ex)
             {
-
                 throw ex;
             }
+            connection.Close();
+            connection.Dispose();
 
         }
         static void CreateTableBrand()
@@ -60,7 +62,7 @@ namespace CashierMigration
 
             string cmd = "CREATE TABLE IF NOT EXISTS brand(" +
                 "id INT PRIMARY KEY NOT NULL AUTO_INCREMENT," +
-                "name VARCHAR(100) NOT NULL," +
+                "name VARCHAR(100) NOT NULL" +
                 ")";
             MySqlCommand command = new MySqlCommand(cmd, connection);
             command.CommandType = CommandType.Text;
@@ -76,6 +78,8 @@ namespace CashierMigration
 
                 throw ex;
             }
+            connection.Close();
+            connection.Dispose();
 
         }
         static void CreateTableProduct()
@@ -87,6 +91,8 @@ namespace CashierMigration
                 "brand_id INT NOT NULL," +
                 "name VARCHAR(100) NOT NULL," +
                 "price DECIMAL NOT NULL," +
+                "quantity INT NOT NULL," +
+                "barcode VARCHAR(255) NOT NULL,"+
                 "FOREIGN KEY (brand_id) REFERENCES brand(id)" +
                 ")";
             MySqlCommand command = new MySqlCommand(cmd, connection);
@@ -103,18 +109,21 @@ namespace CashierMigration
 
                 throw ex;
             }
-
+            connection.Close();
+            connection.Dispose();
         }
-        static void CreateTableItem()
+        static void CreateTableTransaction()
         {
             MySqlConnection connection = GetConnection();
 
-            string cmd = "CREATE TABLE IF NOT EXISTS item(" +
+            string cmd = "CREATE TABLE IF NOT EXISTS transaction(" +
                 "id INT PRIMARY KEY NOT NULL AUTO_INCREMENT," +
-                "brand_id INT NOT NULL," +
-                "name VARCHAR(100) NOT NULL," +
-                "price DECIMAL NOT NULL," +
-                "FOREIGN KEY (brand_id) REFERENCES brand(id)" +
+                "employee_id INT NOT NULL," +
+                "product_id INT NOT NULL," +
+                "total_price DECIMAL NOT NULL," +
+                "created_at DATE NOT NULL," +
+                "FOREIGN KEY (employee_id) REFERENCES employee(id)," +
+                "FOREIGN KEY (product_id) REFERENCES product(id)" +
                 ")";
             MySqlCommand command = new MySqlCommand(cmd, connection);
             command.CommandType = CommandType.Text;
@@ -122,7 +131,7 @@ namespace CashierMigration
             try
             {
                 var res = command.ExecuteNonQuery();
-                Console.WriteLine("Table item is created");
+                Console.WriteLine("Table transaction is created");
 
             }
             catch (MySqlException ex)
@@ -130,6 +139,8 @@ namespace CashierMigration
 
                 throw ex;
             }
+            connection.Close();
+            connection.Dispose();
 
         }
         static void Main(string[] args)
@@ -137,7 +148,7 @@ namespace CashierMigration
             CreateTableEmployee();
             CreateTableBrand();
             CreateTableProduct();
-            CreateTableItem();
+            CreateTableTransaction();
         }
     }
 }

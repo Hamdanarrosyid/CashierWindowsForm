@@ -9,10 +9,10 @@ using MySql.Data.MySqlClient;
 
 namespace CashierWindowsForm
 {
-    internal class DbContext
+    public class DbContext
     {
         string connectionString = "server=127.0.0.1;uid=root;pwd=root;database=cashier";
-        public MySqlConnection GetConnection()
+        private MySqlConnection GetConnection()
         {
             var conn = new MySqlConnection(connectionString);
             try
@@ -21,10 +21,48 @@ namespace CashierWindowsForm
             }
             catch (MySqlException ex)
             {
-                MessageBox.Show(ex.Message);
+                MessageBox.Show("Error: " + ex.Message);
                 throw ex;
             }
+
             return conn;
+        }
+
+        public MySqlDataReader ExcequteReader(string sql)
+        {
+            try
+            {
+                MySqlDataReader reader;
+                MySqlCommand cmd = new MySqlCommand(sql, GetConnection());
+                reader = cmd.ExecuteReader();
+                return reader;
+            }
+            catch (Exception ex)
+            {
+                MessageBox.Show(ex.Message);
+            }
+            return null;
+        }
+
+        public int ExecuteNonQuery(string sql)
+        {
+            try
+            {
+                var connection = GetConnection();
+                int affected;
+                MySqlTransaction mytransaction = connection.BeginTransaction();
+                MySqlCommand cmd = connection.CreateCommand();
+                cmd.CommandText = sql;
+                affected = cmd.ExecuteNonQuery();
+                mytransaction.Commit();
+                return affected;
+            }
+            catch (Exception ex)
+            {
+
+                MessageBox.Show(ex.Message);
+            }
+            return -1;
         }
     }
 }
