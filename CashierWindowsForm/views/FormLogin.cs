@@ -12,7 +12,7 @@ namespace CashierWindowsForm
 {
     public partial class FormLogin : Form
     {
-        private Employee employee = new Employee();
+        private controllers.Employee employee = new controllers.Employee();
         public FormLogin()
         {
             InitializeComponent();
