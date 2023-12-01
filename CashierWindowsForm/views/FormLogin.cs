@@ -1,4 +1,5 @@
-﻿using System;
+﻿using CashierWindowsForm.Views;
+using System;
 using System.Collections.Generic;
 using System.ComponentModel;
 using System.Data;
@@ -12,7 +13,7 @@ namespace CashierWindowsForm
 {
     public partial class FormLogin : Form
     {
-        private controllers.Employee employee = new controllers.Employee();
+        private controllers.EmployeeController employee = new controllers.EmployeeController();
         public FormLogin()
         {
             InitializeComponent();
@@ -32,7 +33,7 @@ namespace CashierWindowsForm
                     MessageBox.Show("Email or password may be incorrect");
                 }else
                 {
-                    FormMain form = new FormMain();
+                    CashierDashboard form = new CashierDashboard();
                     form.Show();
                     Hide();
                 }

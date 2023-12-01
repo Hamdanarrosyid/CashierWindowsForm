@@ -51,9 +51,9 @@
             this.panel1.Controls.Add(this.btnSignIn);
             this.panel1.Controls.Add(this.txtPassword);
             this.panel1.Controls.Add(this.lblPassword);
-            this.panel1.Location = new System.Drawing.Point(344, 144);
+            this.panel1.Location = new System.Drawing.Point(231, 91);
             this.panel1.Name = "panel1";
-            this.panel1.Size = new System.Drawing.Size(553, 391);
+            this.panel1.Size = new System.Drawing.Size(582, 340);
             this.panel1.TabIndex = 0;
             // 
             // txtEmail
@@ -61,9 +61,9 @@
             this.txtEmail.Anchor = ((System.Windows.Forms.AnchorStyles)(((System.Windows.Forms.AnchorStyles.Top | System.Windows.Forms.AnchorStyles.Left) 
             | System.Windows.Forms.AnchorStyles.Right)));
             this.txtEmail.BackColor = System.Drawing.Color.FromArgb(((int)(((byte)(216)))), ((int)(((byte)(216)))), ((int)(((byte)(216)))));
-            this.txtEmail.Location = new System.Drawing.Point(65, 155);
+            this.txtEmail.Location = new System.Drawing.Point(65, 124);
             this.txtEmail.Name = "txtEmail";
-            this.txtEmail.Size = new System.Drawing.Size(409, 20);
+            this.txtEmail.Size = new System.Drawing.Size(438, 20);
             this.txtEmail.TabIndex = 8;
             // 
             // lblEmail
@@ -72,7 +72,7 @@
             | System.Windows.Forms.AnchorStyles.Right)));
             this.lblEmail.AutoSize = true;
             this.lblEmail.Font = new System.Drawing.Font("Segoe UI Semibold", 12F, System.Drawing.FontStyle.Bold, System.Drawing.GraphicsUnit.Point, ((byte)(0)));
-            this.lblEmail.Location = new System.Drawing.Point(61, 131);
+            this.lblEmail.Location = new System.Drawing.Point(61, 100);
             this.lblEmail.Name = "lblEmail";
             this.lblEmail.Size = new System.Drawing.Size(48, 21);
             this.lblEmail.TabIndex = 7;
@@ -96,9 +96,9 @@
             this.btnSignIn.BackColor = System.Drawing.Color.FromArgb(((int)(((byte)(51)))), ((int)(((byte)(51)))), ((int)(((byte)(51)))));
             this.btnSignIn.Font = new System.Drawing.Font("Segoe UI", 12F, System.Drawing.FontStyle.Regular, System.Drawing.GraphicsUnit.Point, ((byte)(0)));
             this.btnSignIn.ForeColor = System.Drawing.Color.White;
-            this.btnSignIn.Location = new System.Drawing.Point(117, 291);
+            this.btnSignIn.Location = new System.Drawing.Point(65, 264);
             this.btnSignIn.Name = "btnSignIn";
-            this.btnSignIn.Size = new System.Drawing.Size(319, 46);
+            this.btnSignIn.Size = new System.Drawing.Size(438, 46);
             this.btnSignIn.TabIndex = 0;
             this.btnSignIn.Text = "Login";
             this.btnSignIn.UseVisualStyleBackColor = false;
@@ -109,10 +109,10 @@
             this.txtPassword.Anchor = ((System.Windows.Forms.AnchorStyles)(((System.Windows.Forms.AnchorStyles.Top | System.Windows.Forms.AnchorStyles.Left) 
             | System.Windows.Forms.AnchorStyles.Right)));
             this.txtPassword.BackColor = System.Drawing.Color.FromArgb(((int)(((byte)(216)))), ((int)(((byte)(216)))), ((int)(((byte)(216)))));
-            this.txtPassword.Location = new System.Drawing.Point(65, 223);
+            this.txtPassword.Location = new System.Drawing.Point(65, 198);
             this.txtPassword.Name = "txtPassword";
             this.txtPassword.PasswordChar = '*';
-            this.txtPassword.Size = new System.Drawing.Size(409, 20);
+            this.txtPassword.Size = new System.Drawing.Size(438, 20);
             this.txtPassword.TabIndex = 5;
             // 
             // lblPassword
@@ -121,7 +121,7 @@
             | System.Windows.Forms.AnchorStyles.Right)));
             this.lblPassword.AutoSize = true;
             this.lblPassword.Font = new System.Drawing.Font("Segoe UI Semibold", 12F, System.Drawing.FontStyle.Bold, System.Drawing.GraphicsUnit.Point, ((byte)(0)));
-            this.lblPassword.Location = new System.Drawing.Point(61, 189);
+            this.lblPassword.Location = new System.Drawing.Point(61, 164);
             this.lblPassword.Name = "lblPassword";
             this.lblPassword.Size = new System.Drawing.Size(79, 21);
             this.lblPassword.TabIndex = 4;
@@ -132,7 +132,7 @@
             this.AutoScaleDimensions = new System.Drawing.SizeF(6F, 13F);
             this.AutoScaleMode = System.Windows.Forms.AutoScaleMode.Font;
             this.BackColor = System.Drawing.Color.FromArgb(((int)(((byte)(51)))), ((int)(((byte)(51)))), ((int)(((byte)(51)))));
-            this.ClientSize = new System.Drawing.Size(1264, 761);
+            this.ClientSize = new System.Drawing.Size(1004, 561);
             this.Controls.Add(this.panel1);
             this.ForeColor = System.Drawing.SystemColors.ControlText;
             this.FormBorderStyle = System.Windows.Forms.FormBorderStyle.FixedDialog;

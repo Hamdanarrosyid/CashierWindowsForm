@@ -5,41 +5,49 @@ using System.Text;
 using System.Threading.Tasks;
 using MySql.Data;
 using System.Data;
-using MySql.Data.MySqlClient;
+using System.Data.SQLite;
+using System.IO;
+using static System.Net.Mime.MediaTypeNames;
+using System.Reflection;
 
 namespace CashierMigration
 {
     internal class Program
     {
-        static MySqlConnection GetConnection()
+        static SQLiteConnection GetConnection()
         {
-            string connectionString = "server=127.0.0.1;uid=root;pwd=root;database=cashier";
-            var conn = new MySqlConnection(connectionString);
-            try
-            {
-                conn.Open();
-            }
-            catch (MySqlException ex)
-            {
+            SQLiteConnection conn;
 
-                throw ex;
-            }
+            string currentDirectory = Directory.GetCurrentDirectory();
+            string grandparentDirectory = Directory.GetParent(currentDirectory)?.Parent?.Parent?.FullName;
+
+
+            string databaseFileName = "cashier.db";
+
+            string databasePath = Path.Combine(grandparentDirectory, databaseFileName);
+
+
+           // string dbName = @"C:\Users\hamdan\source\repos\CashierWindowsForm\cashier.db";
+            string connectionString = string.Format("DataSource ={0}; FailIfMissing = True", databasePath);
+            conn = new SQLiteConnection(connectionString);
+            conn.Open();
+            
             return conn;
         }
         
         static void CreateTableEmployee()
         {
-            MySqlConnection connection = GetConnection();
+            SQLiteConnection connection = GetConnection();
             
             string cmd = "CREATE TABLE IF NOT EXISTS employee(" +
-                "id INT PRIMARY KEY NOT NULL AUTO_INCREMENT," +
+                "id INT PRIMARY KEY NOT NULL," +
                 "name VARCHAR(100) NOT NULL," +
                 "email VARCHAR(100) NOT NULL,"+
                 "password VARCHAR(100) NOT NULL," +
-                "gender ENUM('man', 'woman') NOT NULL," +
+                "gender VARCHAR(100) NOT NULL," +
                 "address VARCHAR(200)"+
                 ")";
-            MySqlCommand command = new MySqlCommand(cmd, connection);
+            SQLiteCommand command = new SQLiteCommand(cmd, connection);
             command.CommandType = CommandType.Text;
 
             try
@@ -48,7 +56,7 @@ namespace CashierMigration
                 Console.WriteLine("Table employee is created");
 
             }
-            catch (MySqlException ex)
+            catch (SQLiteException ex)
             {
                 throw ex;
             }
@@ -58,13 +66,13 @@ namespace CashierMigration
         }
         static void CreateTableBrand()
         {
-            MySqlConnection connection = GetConnection();
+            SQLiteConnection connection = GetConnection();
 
             string cmd = "CREATE TABLE IF NOT EXISTS brand(" +
-                "id INT PRIMARY KEY NOT NULL AUTO_INCREMENT," +
+                "id INT PRIMARY KEY NOT NULL ," +
                 "name VARCHAR(100) NOT NULL" +
                 ")";
-            MySqlCommand command = new MySqlCommand(cmd, connection);
+            SQLiteCommand command = new SQLiteCommand(cmd, connection);
             command.CommandType = CommandType.Text;
 
             try
@@ -73,7 +81,7 @@ namespace CashierMigration
                 Console.WriteLine("Table brand is created");
 
             }
-            catch (MySqlException ex)
+            catch (SQLiteException ex)
             {
 
                 throw ex;
@@ -84,10 +92,10 @@ namespace CashierMigration
         }
         static void CreateTableProduct()
         {
-            MySqlConnection connection = GetConnection();
+            SQLiteConnection connection = GetConnection();
 
             string cmd = "CREATE TABLE IF NOT EXISTS product(" +
-                "id INT PRIMARY KEY NOT NULL AUTO_INCREMENT," +
+                "id INT PRIMARY KEY NOT NULL ," +
                 "brand_id INT NOT NULL," +
                 "name VARCHAR(100) NOT NULL," +
                 "price DECIMAL NOT NULL," +
@@ -95,7 +103,7 @@ namespace CashierMigration
                 "barcode VARCHAR(255) NOT NULL,"+
                 "FOREIGN KEY (brand_id) REFERENCES brand(id)" +
                 ")";
-            MySqlCommand command = new MySqlCommand(cmd, connection);
+            SQLiteCommand command = new SQLiteCommand(cmd, connection);
             command.CommandType = CommandType.Text;
 
             try
@@ -104,7 +112,7 @@ namespace CashierMigration
                 Console.WriteLine("Table product is created");
 
             }
-            catch (MySqlException ex)
+            catch (SQLiteException ex)
             {
 
                 throw ex;
@@ -114,10 +122,10 @@ namespace CashierMigration
         }
         static void CreateTableTransaction()
         {
-            MySqlConnection connection = GetConnection();
+            SQLiteConnection connection = GetConnection();
 
-            string cmd = "CREATE TABLE IF NOT EXISTS transaction(" +
-                "id INT PRIMARY KEY NOT NULL AUTO_INCREMENT," +
+            string cmd = "CREATE TABLE IF NOT EXISTS transactions(" +
+                "id INT PRIMARY KEY NOT NULL ," +
                 "employee_id INT NOT NULL," +
                 "product_id INT NOT NULL," +
                 "total_price DECIMAL NOT NULL," +
@@ -125,7 +133,7 @@ namespace CashierMigration
                 "FOREIGN KEY (employee_id) REFERENCES employee(id)," +
                 "FOREIGN KEY (product_id) REFERENCES product(id)" +
                 ")";
-            MySqlCommand command = new MySqlCommand(cmd, connection);
+            SQLiteCommand command = new SQLiteCommand(cmd, connection);
             command.CommandType = CommandType.Text;
 
             try
@@ -134,7 +142,7 @@ namespace CashierMigration
                 Console.WriteLine("Table transaction is created");
 
             }
-            catch (MySqlException ex)
+            catch (SQLiteException ex)
             {
 
                 throw ex;
@@ -143,12 +151,34 @@ namespace CashierMigration
             connection.Dispose();
 
         }
+
+        static void InsertAdminEmploye()
+        {
+            SQLiteConnection connection = GetConnection();
+            string cmd = "INSERT INTO employee(id,name, email, password, gender) VALUES(1,'admin', 'admin@gmail.com', 'admin', 'man')";
+            SQLiteCommand command = new SQLiteCommand(cmd, connection);
+            try
+            {
+                var res = command.ExecuteNonQuery();
+                Console.WriteLine("Table transaction is created");
+
+            }
+            catch (SQLiteException ex)
+            {
+
+                throw ex;
+            }
+            connection.Close();
+            connection.Dispose();
+        }
         static void Main(string[] args)
         {
             CreateTableEmployee();
             CreateTableBrand();
             CreateTableProduct();
             CreateTableTransaction();
+            InsertAdminEmploye();
+
         }
     }
 }

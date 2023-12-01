@@ -4,9 +4,9 @@ using System.Linq;
 using System.Text;
 using System.Threading.Tasks;
 
-namespace CashierWindowsForm.controllers
+namespace CashierWindowsForm.Controllers
 {
-    internal class Product
+    internal class TransactionController
     {
     }
 }
