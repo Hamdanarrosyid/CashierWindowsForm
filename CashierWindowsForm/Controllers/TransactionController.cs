@@ -6,7 +6,7 @@ using System.Threading.Tasks;
 
 namespace CashierWindowsForm.Controllers
 {
-    internal class TransactionController
+    public class TransactionController
     {
     }
 }
