@@ -13,24 +13,32 @@ namespace CashierWindowsForm.Models.Repository
 
         public string Login(string _email, string _password)
         {
-            string sql = "SELECT * from employee WHERE email='" + _email + "' AND password='" + _password + "'";
-            SQLiteDataReader row = new DbContext().ExcequteReader(sql);
-
-            if (row.HasRows)
-
+            try
             {
-                while (row.Read())
-                {
-                    employee.Id = Int32.Parse(row["id"].ToString());
-                    employee.Name = row["name"].ToString();
-                    employee.Email = row["email"].ToString();
-                    employee.Address = row["address"].ToString();
-                    //employee.gender = (models.Employee.Gender)row["gender"];
-                }
+                string sql = "SELECT * from employee WHERE email='" + _email + "' AND password='" + _password + "'";
+                SQLiteDataReader row = new DbContext().ExcequteReader(sql);
 
-                return employee.Name;
+                if (row.HasRows)
+
+                {
+                    while (row.Read())
+                    {
+                        employee.Id = Int32.Parse(row["id"].ToString());
+                        employee.Name = row["name"].ToString();
+                        employee.Email = row["email"].ToString();
+                        employee.Address = row["address"].ToString();
+                        //employee.gender = (models.Employee.Gender)row["gender"];
+                    }
+
+                    return employee.Name;
+                }
+                return null;
+
+            } catch (SQLiteException ex) {
+                System.Diagnostics.Debug.Print("Login error: {0}", ex.Message);
+                return null;
             }
-            return null;
+            
         }
     }
 }

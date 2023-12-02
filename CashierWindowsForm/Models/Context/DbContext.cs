@@ -49,7 +49,7 @@ namespace CashierWindowsForm
             return null;
         }
 
-        public int ExecuteNonQuery(string sql)
+        public int ExecuteNonQuerySec(string sql)
         {
             try
             {
@@ -68,6 +68,25 @@ namespace CashierWindowsForm
                 MessageBox.Show(ex.Message);
             }
             return -1;
+        }
+
+        public int ExecuteNonQuery(SQLiteCommand cmd)
+        {
+            try
+            {
+                var connection = GetConnection();
+                int affected;
+                cmd.Connection = connection;
+                SQLiteTransaction mytransaction = connection.BeginTransaction();
+                affected = cmd.ExecuteNonQuery();
+                mytransaction.Commit();
+                return affected;
+            } 
+            catch (SQLiteException ex)
+            {
+                MessageBox.Show(ex.Message);
+                return -1;
+            }
         }
     }
 }
