@@ -5,12 +5,14 @@ using System.Collections.Generic;
 using System.Linq;
 using System.Text;
 using System.Threading.Tasks;
+using System.Windows.Forms;
 
 namespace CashierWindowsForm.controllers
 {
-    internal class ProductController
+    public class ProductController
     {
         private readonly ProductRepository repository = new ProductRepository();
+        private readonly BrandRepository brandRepository = new BrandRepository();
         public int CreateProduct(Product product)
         {
             return repository.Create(product);
@@ -19,5 +21,12 @@ namespace CashierWindowsForm.controllers
         {
             return repository.ReadAll();
         }
+
+        public int CreateBrand(Brand brand)
+        {
+            return brandRepository.Create(brand);
+        }
+
+       
     }
 }
