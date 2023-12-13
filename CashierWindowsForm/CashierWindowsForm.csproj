@@ -294,6 +294,12 @@
     <Compile Include="Views\FrmEntryUser.Designer.cs">
       <DependentUpon>FrmEntryUser.cs</DependentUpon>
     </Compile>
+    <Compile Include="Views\FrmEntryBrand.cs">
+      <SubType>Form</SubType>
+    </Compile>
+    <Compile Include="Views\FrmEntryBrand.Designer.cs">
+      <DependentUpon>FrmEntryBrand.cs</DependentUpon>
+    </Compile>
     <EmbeddedResource Include="Views\CashierDashboard.resx">
       <DependentUpon>CashierDashboard.cs</DependentUpon>
     </EmbeddedResource>
@@ -314,6 +320,9 @@
     </Compile>
     <EmbeddedResource Include="Views\FrmEntryUser.resx">
       <DependentUpon>FrmEntryUser.cs</DependentUpon>
+    </EmbeddedResource>
+    <EmbeddedResource Include="Views\FrmEntryBrand.resx">
+      <DependentUpon>FrmEntryBrand.cs</DependentUpon>
     </EmbeddedResource>
     <None Include="packages.config" />
     <None Include="Properties\Settings.settings">

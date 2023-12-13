@@ -95,7 +95,7 @@ namespace CashierWindowsForm.Views
 
 
         private List<Brand> listOfBrand = new List<Brand>();
-        private ProductController controller;
+        private ProductController productController;
 
         private void LoadDataMahasiswa()
         {

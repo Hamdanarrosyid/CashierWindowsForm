@@ -38,14 +38,20 @@
             this.button3 = new System.Windows.Forms.Button();
             this.tabControl.SuspendLayout();
             this.tabUserManagement.SuspendLayout();
+            this.lvwproduct = new System.Windows.Forms.ListView();
+            this.btnbrand = new System.Windows.Forms.Button();
+            this.tabControl.SuspendLayout();
+            this.tabProductManagement.SuspendLayout();
             this.SuspendLayout();
             // 
             // tabProductManagement
             // 
+            this.tabProductManagement.Controls.Add(this.btnbrand);
+            this.tabProductManagement.Controls.Add(this.lvwproduct);
             this.tabProductManagement.Location = new System.Drawing.Point(4, 25);
-            this.tabProductManagement.Margin = new System.Windows.Forms.Padding(4);
+            this.tabProductManagement.Margin = new System.Windows.Forms.Padding(4, 4, 4, 4);
             this.tabProductManagement.Name = "tabProductManagement";
-            this.tabProductManagement.Padding = new System.Windows.Forms.Padding(4);
+            this.tabProductManagement.Padding = new System.Windows.Forms.Padding(4, 4, 4, 4);
             this.tabProductManagement.Size = new System.Drawing.Size(1299, 632);
             this.tabProductManagement.TabIndex = 2;
             this.tabProductManagement.Text = "Product Management";
@@ -89,6 +95,17 @@
             this.tabUserManagement.TabIndex = 1;
             this.tabUserManagement.Text = "User Management";
             this.tabUserManagement.UseVisualStyleBackColor = true;
+            //
+            // tabDashboardCashier
+            // 
+            this.tabDashboardCashier.Location = new System.Drawing.Point(4, 25);
+            this.tabDashboardCashier.Margin = new System.Windows.Forms.Padding(4, 4, 4, 4);
+            this.tabDashboardCashier.Name = "tabDashboardCashier";
+            this.tabDashboardCashier.Padding = new System.Windows.Forms.Padding(4, 4, 4, 4);
+            this.tabDashboardCashier.Size = new System.Drawing.Size(1299, 632);
+            this.tabDashboardCashier.TabIndex = 0;
+            this.tabDashboardCashier.Text = "Dashboard Kasir";
+            this.tabDashboardCashier.UseVisualStyleBackColor = true;
             // 
             // lvwuser
             // 
@@ -153,10 +170,11 @@
             this.AutoScaleMode = System.Windows.Forms.AutoScaleMode.Font;
             this.ClientSize = new System.Drawing.Size(1339, 690);
             this.Controls.Add(this.tabControl);
-            this.Margin = new System.Windows.Forms.Padding(4);
+            this.Margin = new System.Windows.Forms.Padding(4, 4, 4, 4);
             this.Name = "CashierDashboard";
             this.Text = "CashierDashboard";
             this.tabControl.ResumeLayout(false);
+            this.tabProductManagement.ResumeLayout(false);
             this.tabUserManagement.ResumeLayout(false);
             this.ResumeLayout(false);
 
@@ -172,5 +190,7 @@
         private System.Windows.Forms.Button button3;
         private System.Windows.Forms.Button button2;
         private System.Windows.Forms.Button button1;
+        private System.Windows.Forms.ListView lvwproduct;
+        private System.Windows.Forms.Button btnbrand;
     }
 }
