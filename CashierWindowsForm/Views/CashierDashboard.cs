@@ -16,7 +16,7 @@ namespace CashierWindowsForm.Views
     {
         private List<Transaction> listOfTransaction = new List<Transaction>();
         private TransactionController transactionController = new TransactionController();
-        private void InisialisasiListView()
+        private void InisialisasiListViewCashier()
         {
             lvwTransaction.View = System.Windows.Forms.View.Details;
             lvwTransaction.FullRowSelect = true;
@@ -31,10 +31,10 @@ namespace CashierWindowsForm.Views
         public CashierDashboard()
         {
             InitializeComponent();
-            InisialisasiListView();
+            InisialisasiListViewCashier();
         }
 
-        public void OnCreateEventHandler(Transaction transaction)
+        public void OnCreateEventHandlerCashier(Transaction transaction)
         {
             listOfTransaction.Add(transaction);
             int noUrut = lvwTransaction.Items.Count + 1;
