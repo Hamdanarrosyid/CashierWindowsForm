@@ -127,6 +127,26 @@
             this.button3.Text = "Hapus";
             this.button3.UseVisualStyleBackColor = true;
             // 
+            // lvwproduct
+            // 
+            this.lvwproduct.HideSelection = false;
+            this.lvwproduct.Location = new System.Drawing.Point(0, 0);
+            this.lvwproduct.Name = "lvwproduct";
+            this.lvwproduct.Size = new System.Drawing.Size(1033, 632);
+            this.lvwproduct.TabIndex = 0;
+            this.lvwproduct.UseCompatibleStateImageBehavior = false;
+            this.lvwproduct.SelectedIndexChanged += new System.EventHandler(this.lvwproduct_SelectedIndexChanged);
+            // 
+            // btnbrand
+            // 
+            this.btnbrand.Location = new System.Drawing.Point(1071, 42);
+            this.btnbrand.Name = "btnbrand";
+            this.btnbrand.Size = new System.Drawing.Size(198, 77);
+            this.btnbrand.TabIndex = 1;
+            this.btnbrand.Text = "Add Brand";
+            this.btnbrand.UseVisualStyleBackColor = true;
+            this.btnbrand.Click += new System.EventHandler(this.button1_Click);
+            // 
             // CashierDashboard
             // 
             this.AutoScaleDimensions = new System.Drawing.SizeF(8F, 16F);

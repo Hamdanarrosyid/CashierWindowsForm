@@ -260,8 +260,10 @@
     <Compile Include="Controllers\TransactionController.cs" />
     <Compile Include="Models\Context\DbContext.cs" />
     <Compile Include="Controllers\EmployeeController.cs" />
+    <Compile Include="Models\Entity\Brand.cs" />
     <Compile Include="Models\Entity\Product.cs" />
     <Compile Include="Models\Entity\Transaction.cs" />
+    <Compile Include="Models\Repository\BrandRepository.cs" />
     <Compile Include="Models\Repository\EmployeRepository.cs" />
     <Compile Include="Models\Repository\ProductRepository.cs" />
     <Compile Include="Models\Repository\TransactionRepository.cs" />
