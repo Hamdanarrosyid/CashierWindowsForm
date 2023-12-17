@@ -1,4 +1,4 @@
-﻿using CashierWindowsForm.controllers;
+﻿using CashierWindowsForm.Controllers;
 using CashierWindowsForm.Models.Entity;
 using System;
 using System.Collections.Generic;
@@ -16,9 +16,35 @@ namespace CashierWindowsForm.Views
 {
     public partial class CashierDashboard : Form
     {
+        private List<Transaction> listOfTransaction = new List<Transaction>();
+        private TransactionController transactionController = new TransactionController();
+        
         private List<Employee> listofUser = new List<Employee>();
 
         private EmployeeController controller= new EmployeeController();
+        
+        private void InisialisasiListViewCashier()
+        {
+            lvwTransaction.View = System.Windows.Forms.View.Details;
+            lvwTransaction.FullRowSelect = true;
+            lvwTransaction.GridLines = true;
+            lvwTransaction.Columns.Add("No.", 35, HorizontalAlignment.Center);
+            lvwTransaction.Columns.Add("Barang", 200, HorizontalAlignment.Center);
+            lvwTransaction.Columns.Add("Harga", 100, HorizontalAlignment.Left);
+            lvwTransaction.Columns.Add("Qty", 80, HorizontalAlignment.Center);
+            lvwTransaction.Columns.Add("Sub Total", 100, HorizontalAlignment.Center);
+        }
+
+        public CashierDashboard()
+        {
+            InitializeComponent();
+            InisialisasiListViewCashier();
+
+            controller = new EmployeeController();
+            InisialisasiListViewuser();
+            LoadDataEmployee();
+        }
+
         private void InisialisasiListViewuser()
         {
             lvwuser.View = System.Windows.Forms.View.Details;
@@ -29,17 +55,7 @@ namespace CashierWindowsForm.Views
             lvwuser.Columns.Add("Gender", 50, HorizontalAlignment.Left);
             lvwuser.Columns.Add("Address", 200, HorizontalAlignment.Center);
         }
-        public CashierDashboard()
-        {
-            InitializeComponent();
-
-            controller = new EmployeeController();
-            InisialisasiListViewuser();
-            LoadDataEmployee();
-
-            
-
-        }
+    
         // method untuk menampilkan semua data mahasiswa
         private void LoadDataEmployee()
         {
@@ -129,5 +145,27 @@ namespace CashierWindowsForm.Views
                 frmEntry.ShowDialog();
             
         }
+
+        public void OnCreateEventHandlerCashier(Transaction transaction)
+        {
+            listOfTransaction.Add(transaction);
+            int noUrut = lvwTransaction.Items.Count + 1;
+            ListViewItem item = new ListViewItem(noUrut.ToString());
+            item.SubItems.Add(transaction.Product.Name);
+            item.SubItems.Add(transaction.Product.Price.ToString());
+            item.SubItems.Add(transaction.Quantity.ToString());
+            decimal subTotal = transaction.Quantity * transaction.Product.Price;
+            item.SubItems.Add(subTotal.ToString());
+            lvwTransaction.Items.Add(item);
+        }
+
+        private void btnSeaerhAdd_Click(object sender, EventArgs e)
+        {
+            FrmEntryTransaction frmEntry = new FrmEntryTransaction("Tambah Data Mahasiswa", transactionController);
+            frmEntry.OnCreate += OnCreateEventHandlerCashier;
+            frmEntry.ShowDialog();
+        }
+
+
     }
 }
