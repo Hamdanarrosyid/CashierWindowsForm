@@ -42,7 +42,7 @@ namespace CashierWindowsForm.Views
 
             controller = new EmployeeController();
             InisialisasiListViewuser();
-            LoadDataEmployee()
+            LoadDataEmployee();
         }
 
         private void InisialisasiListViewuser()
@@ -162,7 +162,7 @@ namespace CashierWindowsForm.Views
         private void btnSeaerhAdd_Click(object sender, EventArgs e)
         {
             FrmEntryTransaction frmEntry = new FrmEntryTransaction("Tambah Data Mahasiswa", transactionController);
-            frmEntry.OnCreate += OnCreateEventHandler;
+            frmEntry.OnCreate += OnCreateEventHandlerCashier;
             frmEntry.ShowDialog();
         }
 

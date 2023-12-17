@@ -39,7 +39,6 @@ namespace CashierWindowsForm.Views
             this.btnDelete = new System.Windows.Forms.Button();
             this.label2 = new System.Windows.Forms.Label();
             this.lblKembali = new System.Windows.Forms.Label();
-            this.tabDashboardCashier.SuspendLayout();
             this.tabProductManagement = new System.Windows.Forms.TabPage();
             this.tabDashboardCashier = new System.Windows.Forms.TabPage();
             this.tabControl = new System.Windows.Forms.TabControl();
@@ -54,6 +53,7 @@ namespace CashierWindowsForm.Views
             this.btnbrand = new System.Windows.Forms.Button();
             this.tabControl.SuspendLayout();
             this.tabProductManagement.SuspendLayout();
+            this.tabDashboardCashier.SuspendLayout();
             this.SuspendLayout();
             // 
             // tabProductManagement

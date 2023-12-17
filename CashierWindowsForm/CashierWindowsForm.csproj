@@ -293,7 +293,7 @@
     </Compile>
     <Compile Include="Views\FrmEntryTransaction.Designer.cs">
       <DependentUpon>FrmEntryTransaction.cs</DependentUpon>
-    </COmpile>
+    </Compile>
     <Compile Include="Views\FrmEntryUser.cs">
       <SubType>Form</SubType>
     </Compile>
