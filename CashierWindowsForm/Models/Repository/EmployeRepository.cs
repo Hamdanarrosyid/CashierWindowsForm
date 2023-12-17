@@ -1,9 +1,12 @@
-﻿using System;
+﻿using CashierWindowsForm.models;
+using CashierWindowsForm.Models.Entity;
+using System;
 using System.Collections.Generic;
 using System.Data.SQLite;
 using System.Linq;
 using System.Text;
 using System.Threading.Tasks;
+using static System.Windows.Forms.VisualStyles.VisualStyleElement.ListView;
 
 namespace CashierWindowsForm.Models.Repository
 {
@@ -34,11 +37,19 @@ namespace CashierWindowsForm.Models.Repository
                 }
                 return null;
 
-            } catch (SQLiteException ex) {
+            }
+            catch (SQLiteException ex)
+            {
                 System.Diagnostics.Debug.Print("Login error: {0}", ex.Message);
                 return null;
             }
-            
+
         }
+        public List<Employee> ReadAll()
+        {
+            List<Employee> employees = new List<Employee>();
+            return employees;
+        }
+
     }
 }

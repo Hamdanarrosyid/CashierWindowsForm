@@ -260,8 +260,10 @@
     <Compile Include="Controllers\TransactionController.cs" />
     <Compile Include="Models\Context\DbContext.cs" />
     <Compile Include="Controllers\EmployeeController.cs" />
+    <Compile Include="Models\Entity\Brand.cs" />
     <Compile Include="Models\Entity\Product.cs" />
     <Compile Include="Models\Entity\Transaction.cs" />
+    <Compile Include="Models\Repository\BrandRepository.cs" />
     <Compile Include="Models\Repository\EmployeRepository.cs" />
     <Compile Include="Models\Repository\ProductRepository.cs" />
     <Compile Include="Models\Repository\TransactionRepository.cs" />
@@ -291,6 +293,18 @@
     </Compile>
     <Compile Include="Views\FrmEntryTransaction.Designer.cs">
       <DependentUpon>FrmEntryTransaction.cs</DependentUpon>
+    </COmpile>
+    <Compile Include="Views\FrmEntryUser.cs">
+      <SubType>Form</SubType>
+    </Compile>
+    <Compile Include="Views\FrmEntryUser.Designer.cs">
+      <DependentUpon>FrmEntryUser.cs</DependentUpon>
+    </Compile>
+    <Compile Include="Views\FrmEntryBrand.cs">
+      <SubType>Form</SubType>
+    </Compile>
+    <Compile Include="Views\FrmEntryBrand.Designer.cs">
+      <DependentUpon>FrmEntryBrand.cs</DependentUpon>
     </Compile>
     <EmbeddedResource Include="Views\CashierDashboard.resx">
       <DependentUpon>CashierDashboard.cs</DependentUpon>
@@ -312,6 +326,12 @@
     </Compile>
     <EmbeddedResource Include="Views\FrmEntryTransaction.resx">
       <DependentUpon>FrmEntryTransaction.cs</DependentUpon>
+    </EmbeddedResource>
+    <EmbeddedResource Include="Views\FrmEntryUser.resx">
+      <DependentUpon>FrmEntryUser.cs</DependentUpon>
+    </EmbeddedResource>
+    <EmbeddedResource Include="Views\FrmEntryBrand.resx">
+      <DependentUpon>FrmEntryBrand.cs</DependentUpon>
     </EmbeddedResource>
     <None Include="packages.config" />
     <None Include="Properties\Settings.settings">
