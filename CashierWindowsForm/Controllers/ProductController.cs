@@ -12,21 +12,31 @@ namespace CashierWindowsForm.controllers
     public class ProductController
     {
         private readonly ProductRepository repository = new ProductRepository();
-        private readonly BrandRepository brandRepository = new BrandRepository();
-        public int CreateProduct(Product product)
+        public int Create(Product product)
         {
             return repository.Create(product);
         }
-        public List<Product> Read()
+        public List<Product> GetAll(string filterName = "")
         {
-            return repository.ReadAll();
+            return repository.GetAll(filterName);
         }
 
-        public int CreateBrand(Brand brand)
+        public int Update(Product product)
         {
-            return brandRepository.Create(brand);
+            return repository.Update(product);
         }
 
-       
+        public int Delete(int productId)
+        {
+            return repository.Delete(productId);
+        }
+
+
+        public Product Get(int productId)
+        {
+            return repository.Get(productId);
+        }
+
+
     }
 }

@@ -1,46 +1,56 @@
 ﻿using System;
-using System.Collections.Generic;
+using System.Data;
 using System.Data.SQLite;
+using System.Diagnostics;
+using System.Diagnostics.Metrics;
+using System.Drawing;
 using System.IO;
-using System.Linq;
-using System.Text;
-using System.Threading.Tasks;
 using System.Windows.Forms;
-using MySql.Data;
+using ZXing;
 
 namespace CashierWindowsForm
 {
-    public class DbContext
+    public class DbContext : IDisposable
     {
-        static SQLiteConnection GetConnection()
+        private SQLiteConnection connection;
+        private int counter = 0;
+        public DbContext()
         {
-            SQLiteConnection conn;
+            InitializeConnection();
+            counter += 1;
+            Debug.Print("connection created: {0}", counter);
+        }
 
+        private void InitializeConnection()
+        {
             string currentDirectory = Directory.GetCurrentDirectory();
             string grandparentDirectory = Directory.GetParent(currentDirectory)?.Parent?.Parent?.FullName;
 
-
             string databaseFileName = "cashier.db";
-
             string databasePath = Path.Combine(grandparentDirectory, databaseFileName);
 
-
-           // string dbName = @"C:\Users\hamdan\source\repos\CashierWindowsForm\cashier.db";
-            string connectionString = string.Format("DataSource ={0}; FailIfMissing = True", databasePath);
-            conn = new SQLiteConnection(connectionString);
-            conn.Open();
-            
-            return conn;
+            string connectionString = $"Data Source={databasePath};FailIfMissing=True";
+                connection = new SQLiteConnection(connectionString);
+                connection.Open();
         }
 
-        public SQLiteDataReader ExcequteReader(string sql)
+        public SQLiteDataReader ExecuteReader(string sql, SQLiteParameter param = null)
         {
             try
             {
-                SQLiteDataReader reader;
-                SQLiteCommand cmd = new SQLiteCommand(sql, GetConnection());
-                reader = cmd.ExecuteReader();
-                return reader;
+                //using (SQLiteCommand cmd = new SQLiteCommand(sql, connection))
+                SQLiteCommand cmd = new SQLiteCommand(sql, connection);
+                {
+                    if (param != null)
+                    {
+                        cmd.Parameters.Add(param);
+                    }
+                    //using (SQLiteDataReader reader = cmd.ExecuteReader())
+                        SQLiteDataReader reader = cmd.ExecuteReader();
+                    {
+                        return reader;
+                    }
+                }
             }
             catch (Exception ex)
             {
@@ -53,40 +63,74 @@ namespace CashierWindowsForm
         {
             try
             {
-                var connection = GetConnection();
                 int affected;
-                SQLiteTransaction mytransaction = connection.BeginTransaction();
-                SQLiteCommand cmd = connection.CreateCommand();
-                cmd.CommandText = sql;
-                affected = cmd.ExecuteNonQuery();
-                mytransaction.Commit();
+                using (SQLiteTransaction mytransaction = connection.BeginTransaction())
+                using (SQLiteCommand cmd = connection.CreateCommand())
+                {
+                    cmd.CommandText = sql;
+                    affected = cmd.ExecuteNonQuery();
+                    mytransaction.Commit();
+                }
                 return affected;
             }
             catch (Exception ex)
             {
-
                 MessageBox.Show(ex.Message);
+                return -1;
             }
-            return -1;
         }
 
         public int ExecuteNonQuery(SQLiteCommand cmd)
         {
             try
             {
-                var connection = GetConnection();
+
                 int affected;
                 cmd.Connection = connection;
-                SQLiteTransaction mytransaction = connection.BeginTransaction();
-                affected = cmd.ExecuteNonQuery();
-                mytransaction.Commit();
+                using (SQLiteTransaction mytransaction = connection.BeginTransaction())
+                {
+                    affected = cmd.ExecuteNonQuery();
+                    mytransaction.Commit();
+                }
                 return affected;
-            } 
+            }
             catch (SQLiteException ex)
             {
                 MessageBox.Show(ex.Message);
                 return -1;
             }
+        }
+
+        public object ExecuteScalar(SQLiteCommand cmd)
+        {
+            try
+            {
+                cmd.Connection = connection;
+                return cmd.ExecuteScalar();
+            }
+            catch (SQLiteException ex)
+            {
+                MessageBox.Show(ex.Message);
+                return null;
+            }
+        }
+
+
+        public void Dispose()
+        {
+            if (connection != null)
+            {
+                try
+                {
+                    if (connection.State != ConnectionState.Closed) connection.Close();
+                }
+                finally
+                {
+                    connection.Dispose();
+                }
+            }
+
+            GC.SuppressFinalize(this);
         }
     }
 }

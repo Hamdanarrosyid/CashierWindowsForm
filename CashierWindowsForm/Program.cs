@@ -1,8 +1,10 @@
 ﻿using System;
 using System.Collections.Generic;
+using System.Configuration;
 using System.Linq;
 using System.Threading.Tasks;
 using System.Windows.Forms;
+using CashierWindowsForm.Views;
 using MySql.Data;
 using MySql.Data.MySqlClient;
 
@@ -19,7 +21,19 @@ namespace CashierWindowsForm
         {
             Application.EnableVisualStyles();
             Application.SetCompatibleTextRenderingDefault(false);
-            Application.Run(new FormLogin());
+            // Check if the token is present in the configuration manager
+            string token = ConfigurationManager.AppSettings["AuthToken"];
+
+            // If the token is present, open the DashboardForm
+            // Otherwise, open the FormLogin
+            if (!string.IsNullOrEmpty(token))
+            {
+                Application.Run(new CashierDashboard());
+            }
+            else
+            {
+                Application.Run(new FormLogin());
+            }
         }
     }
 }
