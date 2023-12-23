@@ -75,7 +75,7 @@ namespace CashierWindowsForm.Models.Repository
             List<TransactionLst> list = new List<TransactionLst>();
             try
             {
-                string sql = "SELECT DISTINCT transactions_lst.*,employee.name as employee_name FROM transactions_lst inner join transactions on transactions_lst.id = transactions.transaction_lst_id inner join employee on transactions_lst.employee_id = employee.id";
+                string sql = "SELECT DISTINCT transactions_lst.*,employee.name as employee_name, sum(transactions.sub_total) as total FROM transactions_lst inner join transactions on transactions_lst.id = transactions.transaction_lst_id inner join employee on transactions_lst.employee_id = employee.id group by transactions_lst.id";
                 using (SQLiteDataReader dtr = dbContext.ExecuteReader(sql))
                 {
                     while (dtr.Read())
@@ -84,7 +84,7 @@ namespace CashierWindowsForm.Models.Repository
                         transactionLst.Id = int.Parse(dtr["id"].ToString());
                         transactionLst.EmployeeId = int.Parse(dtr["employee_id"].ToString());
                         transactionLst.CreatedAt = DateTime.Parse(dtr["created_at"].ToString());
-                        transactionLst.TotalPrice = Decimal.Parse(dtr["total_price"].ToString());
+                        transactionLst.TotalPrice = Decimal.Parse(dtr["total"].ToString());
 
                         // Assuming you have an Employee table with corresponding columns
                         // Adjust the columns accordingly based on your actual schema
@@ -109,7 +109,7 @@ namespace CashierWindowsForm.Models.Repository
         public int Update(TransactionLst transactionLst)
         {
             int result = 0;
-            string sql = "UPDATE transactions_lst SET employee_id = @employeeId, created_at = @createdAt, total_price = @totalPrice WHERE id = @id";
+            string sql = "UPDATE transactions_lst SET employee_id = @employeeId, created_at = @createdAt, total_price = @totalPrice, pay = @pay, payback = @payback WHERE id = @id";
 
             try
             {
@@ -118,6 +118,9 @@ namespace CashierWindowsForm.Models.Repository
                     cmd.Parameters.AddWithValue("@employeeId", transactionLst.EmployeeId);
                     cmd.Parameters.AddWithValue("@createdAt", transactionLst.CreatedAt);
                     cmd.Parameters.AddWithValue("@totalPrice", transactionLst.TotalPrice);
+                    cmd.Parameters.AddWithValue("@payback", transactionLst.PayBack);
+                    cmd.Parameters.AddWithValue("@pay", transactionLst.Pay);
+                    
                     cmd.Parameters.AddWithValue("@id", transactionLst.Id);
 
                     result = dbContext.ExecuteNonQuery(cmd);
@@ -136,20 +139,20 @@ namespace CashierWindowsForm.Models.Repository
             int result = 0;
             string sql = "DELETE FROM transactions_lst WHERE id = @id";
 
-            try
+            using (SQLiteCommand cmd = new SQLiteCommand(sql))
             {
-                using (SQLiteCommand cmd = new SQLiteCommand(sql))
+                try
                 {
                     cmd.Parameters.AddWithValue("@id", transactionLstId);
 
                     result = dbContext.ExecuteNonQuery(cmd);
                 }
-            }
-            catch (Exception ex)
-            {
-                Debug.Print("Delete error: {0}", ex.Message);
-            }
+                catch (Exception ex)
+                {
+                    Debug.Print("Delete error: {0}", ex.Message);
+                }
 
+            }
             return result;
         }
 
@@ -161,25 +164,27 @@ namespace CashierWindowsForm.Models.Repository
             {
                 string sql = $@"SELECT * FROM transactions_lst WHERE id = '{transactionLstId}'";
 
-                    using (SQLiteDataReader dtr = dbContext.ExecuteReader(sql))
+                using (SQLiteDataReader dtr = dbContext.ExecuteReader(sql))
+                {
+                    if (dtr.Read())
                     {
-                        if (dtr.Read())
-                        {
-                            transactionLst = new TransactionLst();
-                            transactionLst.Id = int.Parse(dtr["id"].ToString());
-                            transactionLst.EmployeeId = int.Parse(dtr["employee_id"].ToString());
-                            transactionLst.CreatedAt = DateTime.Parse(dtr["created_at"].ToString());
-                            transactionLst.TotalPrice = Decimal.Parse(dtr["total_price"].ToString());
+                        transactionLst = new TransactionLst();
+                        transactionLst.Id = int.Parse(dtr["id"].ToString());
+                        transactionLst.EmployeeId = int.Parse(dtr["employee_id"].ToString());
+                        transactionLst.CreatedAt = DateTime.Parse(dtr["created_at"].ToString());
+                        transactionLst.TotalPrice = Decimal.Parse(dtr["total_price"].ToString());
+                        transactionLst.Pay = Decimal.Parse(dtr["pay"].ToString());
+                        transactionLst.PayBack = Decimal.Parse(dtr["payback"].ToString());
 
-                            // Assuming you have an Employee table with corresponding columns
-                            // Adjust the columns accordingly based on your actual schema
-                            transactionLst.Employee = new Employee
-                            {
-                                // Set properties based on Employee table columns
-                            };
-                        }
+                        // Assuming you have an Employee table with corresponding columns
+                        // Adjust the columns accordingly based on your actual schema
+                        transactionLst.Employee = new Employee
+                        {
+                            // Set properties based on Employee table columns
+                        };
                     }
-                
+                }
+
             }
             catch (Exception ex)
             {
@@ -190,4 +195,4 @@ namespace CashierWindowsForm.Models.Repository
         }
     }
 
-    }
+}

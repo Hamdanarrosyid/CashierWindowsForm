@@ -14,6 +14,7 @@ using System.Linq;
 using System.Text;
 using System.Threading.Tasks;
 using System.Windows.Forms;
+using System.Xml.Linq;
 
 namespace CashierWindowsForm.Views
 {
@@ -23,14 +24,13 @@ namespace CashierWindowsForm.Views
         public event CreateUpdateEventHandler OnCreate;
         public event CreateUpdateEventHandler OnUpdate;
 
-        private List<Product> products = new List<Product>();
         private TransactionLst TransactionLst = new TransactionLst();
 
         private TransactionController transactionController;
         private ProductController productController = new ProductController();
         private TransactionLstController transactionLstController = new TransactionLstController();
 
-        private JwtManager jwtManager = new JwtManager();
+        private Transaction editingTransaction;
 
         public FrmEntryTransaction()
         {
@@ -57,6 +57,30 @@ namespace CashierWindowsForm.Views
             this.TransactionLst = transactionLst;
         }
 
+        public FrmEntryTransaction(string title, Transaction transaction, TransactionController controller, TransactionLst transactionLst) : this()
+        {
+            // ganti text/judul form
+            this.Text = title;
+            this.transactionController = controller;
+            this.TransactionLst = transactionLst;
+            editingTransaction = transaction;
+            LoadTransactionData();
+        }
+
+        private void LoadTransactionData()
+        {
+            if (editingTransaction != null)
+            {
+                txtQuantityProduct.Text = editingTransaction.Quantity.ToString();
+                List<Product> products = productController.GetAll();
+                Product selectedProduct = products.FirstOrDefault(b => b.Id == editingTransaction.Product.Id);
+                var index = lstProduct.Items.IndexOf(selectedProduct);
+
+                lstProduct.SelectedIndex = index;
+                lstProduct.DisplayMember = "Name";
+            }
+        }
+
         private void button2_Click(object sender, EventArgs e)
         {
             this.Close();
@@ -64,33 +88,60 @@ namespace CashierWindowsForm.Views
 
         private void btnSubmit_Click(object sender, EventArgs e)
         {
-            Transaction transaction = new Transaction();
 
-            if (lstProduct.SelectedItem != null)
+            if (editingTransaction != null)
             {
-                Product selectedPRoduct = (Product)lstProduct.SelectedItem;
-                transaction.ProductId = selectedPRoduct.Id;
-
-                transaction.Quantity = int.Parse(txtQuantityProduct.Text);
-                transaction.TransactionLstId = TransactionLst.Id;
-                transaction.SubTotal = transaction.Quantity * selectedPRoduct.Price;
-                var result = transactionController.Create(transaction);
+                SetTransactionData(editingTransaction);
+                var result = transactionController.Update(editingTransaction);
                 if (result > 0)
                 {
-                    TransactionLst transactionLst = transactionLstController.Get(transaction.TransactionLstId);
-                    transactionLst.TotalPrice += transaction.SubTotal;
-                    transactionLstController.Update(transactionLst);
-                    MessageBox.Show("Success", "Berhasil menambah transaction", MessageBoxButtons.OK);
-                    OnCreate(transaction);
+                    MessageBox.Show("Success", "Berhasil melakukan update", MessageBoxButtons.OK);
+                    OnUpdate(editingTransaction);
                     Close();
                 }
             }
+            else
+            {
+                Transaction transaction = new Transaction();
+                SetTransactionData(transaction);
+                if (lstProduct.SelectedItem != null)
+                {
+
+                    var result = transactionController.Create(transaction);
+                    if (result > 0)
+                    {
+                        Product product = productController.Get(transaction.ProductId);
+
+                        product.Quantity -= transaction.Quantity;
+                        productController.Update(product);
+
+                        TransactionLst transactionLst = transactionLstController.Get(transaction.TransactionLstId);
+                        transactionLst.TotalPrice += transaction.SubTotal;
+                        transactionLstController.Update(transactionLst);
+                        MessageBox.Show("Success", "Berhasil menambah transaction", MessageBoxButtons.OK);
+                        OnCreate(transaction);
+                        Close();
+                    }
+                }
+
+            }
+
 
         }
 
         private void btnSearchProduct_Click(object sender, EventArgs e)
         {
             LoadProduct(lstProduct.Text);
+        }
+
+        private void SetTransactionData(Transaction transaction)
+        {
+            Product selectedPRoduct = (Product)lstProduct.SelectedItem;
+            transaction.ProductId = selectedPRoduct.Id;
+
+            transaction.Quantity = int.Parse(txtQuantityProduct.Text);
+            transaction.TransactionLstId = TransactionLst.Id;
+            transaction.SubTotal = transaction.Quantity * selectedPRoduct.Price;
         }
     }
 }

@@ -112,7 +112,7 @@ namespace CashierWindowsForm.Models.Repository
             List<Brand> listOfBrand = new List<Brand>();
             try
             {
-                string sql = @"select * from brand order by name";
+                string sql = @"select * from brand";
 
                 using (SQLiteDataReader dtr = dbContext.ExecuteReader(sql))
                 {

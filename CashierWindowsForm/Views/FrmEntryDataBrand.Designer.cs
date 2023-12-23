@@ -68,7 +68,7 @@
             this.btnTambah.Name = "btnTambah";
             this.btnTambah.Size = new System.Drawing.Size(113, 28);
             this.btnTambah.TabIndex = 6;
-            this.btnTambah.Text = "Tambah";
+            this.btnTambah.Text = "Submit";
             this.btnTambah.UseVisualStyleBackColor = true;
             this.btnTambah.Click += new System.EventHandler(this.btnTambah_Click);
             // 

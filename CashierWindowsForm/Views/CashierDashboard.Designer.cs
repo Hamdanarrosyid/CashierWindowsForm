@@ -31,8 +31,6 @@ namespace CashierWindowsForm.Views
             this.lblTotalText = new System.Windows.Forms.Label();
             this.label1 = new System.Windows.Forms.Label();
             this.lvwTransaction = new System.Windows.Forms.ListView();
-            this.lblDiscount = new System.Windows.Forms.Label();
-            this.txtDiscount = new System.Windows.Forms.TextBox();
             this.lblBayar = new System.Windows.Forms.Label();
             this.txtBayar = new System.Windows.Forms.TextBox();
             this.btnSeaerhAdd = new System.Windows.Forms.Button();
@@ -43,24 +41,19 @@ namespace CashierWindowsForm.Views
             this.btnDeleteProduct = new System.Windows.Forms.Button();
             this.btnEditProduct = new System.Windows.Forms.Button();
             this.btnAddProduct = new System.Windows.Forms.Button();
-            this.btnBrand = new System.Windows.Forms.Button();
             this.lvwproduct = new System.Windows.Forms.ListView();
             this.tabDashboardCashier = new System.Windows.Forms.TabPage();
+            this.bnUpdate = new System.Windows.Forms.Button();
+            this.button4 = new System.Windows.Forms.Button();
             this.btnCreateNewtransaction = new System.Windows.Forms.Button();
             this.btnbayar = new System.Windows.Forms.Button();
             this.tabControl = new System.Windows.Forms.TabControl();
-            this.tabUserManagement = new System.Windows.Forms.TabPage();
-            this.button3 = new System.Windows.Forms.Button();
-            this.button2 = new System.Windows.Forms.Button();
-            this.button1 = new System.Windows.Forms.Button();
-            this.lvwuser = new System.Windows.Forms.ListView();
             this.lblemployee = new System.Windows.Forms.Label();
             this.btnLogout = new System.Windows.Forms.Button();
-            this.button4 = new System.Windows.Forms.Button();
+            this.btnBrandList = new System.Windows.Forms.Button();
             this.tabProductManagement.SuspendLayout();
             this.tabDashboardCashier.SuspendLayout();
             this.tabControl.SuspendLayout();
-            this.tabUserManagement.SuspendLayout();
             this.SuspendLayout();
             // 
             // lblTotalText
@@ -76,7 +69,7 @@ namespace CashierWindowsForm.Views
             // label1
             // 
             this.label1.AutoSize = true;
-            this.label1.Location = new System.Drawing.Point(594, 15);
+            this.label1.Location = new System.Drawing.Point(663, 15);
             this.label1.Margin = new System.Windows.Forms.Padding(2, 0, 2, 0);
             this.label1.Name = "label1";
             this.label1.Size = new System.Drawing.Size(31, 13);
@@ -89,32 +82,14 @@ namespace CashierWindowsForm.Views
             this.lvwTransaction.Location = new System.Drawing.Point(12, 15);
             this.lvwTransaction.Margin = new System.Windows.Forms.Padding(2);
             this.lvwTransaction.Name = "lvwTransaction";
-            this.lvwTransaction.Size = new System.Drawing.Size(571, 331);
+            this.lvwTransaction.Size = new System.Drawing.Size(629, 344);
             this.lvwTransaction.TabIndex = 0;
             this.lvwTransaction.UseCompatibleStateImageBehavior = false;
-            // 
-            // lblDiscount
-            // 
-            this.lblDiscount.AutoSize = true;
-            this.lblDiscount.Location = new System.Drawing.Point(594, 67);
-            this.lblDiscount.Margin = new System.Windows.Forms.Padding(2, 0, 2, 0);
-            this.lblDiscount.Name = "lblDiscount";
-            this.lblDiscount.Size = new System.Drawing.Size(49, 13);
-            this.lblDiscount.TabIndex = 4;
-            this.lblDiscount.Text = "Discount";
-            // 
-            // txtDiscount
-            // 
-            this.txtDiscount.Location = new System.Drawing.Point(829, 64);
-            this.txtDiscount.Margin = new System.Windows.Forms.Padding(2);
-            this.txtDiscount.Name = "txtDiscount";
-            this.txtDiscount.Size = new System.Drawing.Size(90, 20);
-            this.txtDiscount.TabIndex = 5;
             // 
             // lblBayar
             // 
             this.lblBayar.AutoSize = true;
-            this.lblBayar.Location = new System.Drawing.Point(594, 104);
+            this.lblBayar.Location = new System.Drawing.Point(663, 54);
             this.lblBayar.Margin = new System.Windows.Forms.Padding(2, 0, 2, 0);
             this.lblBayar.Name = "lblBayar";
             this.lblBayar.Size = new System.Drawing.Size(34, 13);
@@ -123,7 +98,7 @@ namespace CashierWindowsForm.Views
             // 
             // txtBayar
             // 
-            this.txtBayar.Location = new System.Drawing.Point(829, 101);
+            this.txtBayar.Location = new System.Drawing.Point(829, 51);
             this.txtBayar.Margin = new System.Windows.Forms.Padding(2);
             this.txtBayar.Name = "txtBayar";
             this.txtBayar.Size = new System.Drawing.Size(90, 20);
@@ -131,7 +106,7 @@ namespace CashierWindowsForm.Views
             // 
             // btnSeaerhAdd
             // 
-            this.btnSeaerhAdd.Location = new System.Drawing.Point(331, 375);
+            this.btnSeaerhAdd.Location = new System.Drawing.Point(526, 373);
             this.btnSeaerhAdd.Margin = new System.Windows.Forms.Padding(2);
             this.btnSeaerhAdd.Name = "btnSeaerhAdd";
             this.btnSeaerhAdd.Size = new System.Drawing.Size(115, 19);
@@ -142,18 +117,19 @@ namespace CashierWindowsForm.Views
             // 
             // btnDelete
             // 
-            this.btnDelete.Location = new System.Drawing.Point(467, 375);
+            this.btnDelete.Location = new System.Drawing.Point(526, 397);
             this.btnDelete.Margin = new System.Windows.Forms.Padding(2);
             this.btnDelete.Name = "btnDelete";
             this.btnDelete.Size = new System.Drawing.Size(115, 19);
             this.btnDelete.TabIndex = 9;
             this.btnDelete.Text = "Delete";
             this.btnDelete.UseVisualStyleBackColor = true;
+            this.btnDelete.Click += new System.EventHandler(this.btnDelete_Click);
             // 
             // label2
             // 
             this.label2.AutoSize = true;
-            this.label2.Location = new System.Drawing.Point(594, 313);
+            this.label2.Location = new System.Drawing.Point(663, 313);
             this.label2.Margin = new System.Windows.Forms.Padding(2, 0, 2, 0);
             this.label2.Name = "label2";
             this.label2.Size = new System.Drawing.Size(44, 13);
@@ -172,10 +148,10 @@ namespace CashierWindowsForm.Views
             // 
             // tabProductManagement
             // 
+            this.tabProductManagement.Controls.Add(this.btnBrandList);
             this.tabProductManagement.Controls.Add(this.btnDeleteProduct);
             this.tabProductManagement.Controls.Add(this.btnEditProduct);
             this.tabProductManagement.Controls.Add(this.btnAddProduct);
-            this.tabProductManagement.Controls.Add(this.btnBrand);
             this.tabProductManagement.Controls.Add(this.lvwproduct);
             this.tabProductManagement.Location = new System.Drawing.Point(4, 22);
             this.tabProductManagement.Name = "tabProductManagement";
@@ -219,17 +195,6 @@ namespace CashierWindowsForm.Views
             this.btnAddProduct.UseVisualStyleBackColor = true;
             this.btnAddProduct.Click += new System.EventHandler(this.btnAddProduct_Click);
             // 
-            // btnBrand
-            // 
-            this.btnBrand.Location = new System.Drawing.Point(793, 20);
-            this.btnBrand.Margin = new System.Windows.Forms.Padding(2);
-            this.btnBrand.Name = "btnBrand";
-            this.btnBrand.Size = new System.Drawing.Size(148, 63);
-            this.btnBrand.TabIndex = 1;
-            this.btnBrand.Text = "Add Brand";
-            this.btnBrand.UseVisualStyleBackColor = true;
-            this.btnBrand.Click += new System.EventHandler(this.btnBrand_Click);
-            // 
             // lvwproduct
             // 
             this.lvwproduct.HideSelection = false;
@@ -242,6 +207,7 @@ namespace CashierWindowsForm.Views
             // 
             // tabDashboardCashier
             // 
+            this.tabDashboardCashier.Controls.Add(this.bnUpdate);
             this.tabDashboardCashier.Controls.Add(this.button4);
             this.tabDashboardCashier.Controls.Add(this.btnCreateNewtransaction);
             this.tabDashboardCashier.Controls.Add(this.btnbayar);
@@ -251,8 +217,6 @@ namespace CashierWindowsForm.Views
             this.tabDashboardCashier.Controls.Add(this.btnSeaerhAdd);
             this.tabDashboardCashier.Controls.Add(this.txtBayar);
             this.tabDashboardCashier.Controls.Add(this.lblBayar);
-            this.tabDashboardCashier.Controls.Add(this.txtDiscount);
-            this.tabDashboardCashier.Controls.Add(this.lblDiscount);
             this.tabDashboardCashier.Controls.Add(this.lblTotalText);
             this.tabDashboardCashier.Controls.Add(this.label1);
             this.tabDashboardCashier.Controls.Add(this.lvwTransaction);
@@ -264,9 +228,33 @@ namespace CashierWindowsForm.Views
             this.tabDashboardCashier.Text = "Dashboard Kasir";
             this.tabDashboardCashier.UseVisualStyleBackColor = true;
             // 
+            // bnUpdate
+            // 
+            this.bnUpdate.Location = new System.Drawing.Point(526, 420);
+            this.bnUpdate.Margin = new System.Windows.Forms.Padding(2);
+            this.bnUpdate.Name = "bnUpdate";
+            this.bnUpdate.Size = new System.Drawing.Size(115, 19);
+            this.bnUpdate.TabIndex = 15;
+            this.bnUpdate.Text = "Update";
+            this.bnUpdate.TextAlign = System.Drawing.ContentAlignment.TopCenter;
+            this.bnUpdate.UseVisualStyleBackColor = true;
+            this.bnUpdate.Click += new System.EventHandler(this.bnUpdate_Click);
+            // 
+            // button4
+            // 
+            this.button4.Location = new System.Drawing.Point(12, 398);
+            this.button4.Margin = new System.Windows.Forms.Padding(2);
+            this.button4.Name = "button4";
+            this.button4.Size = new System.Drawing.Size(156, 19);
+            this.button4.TabIndex = 14;
+            this.button4.Text = "Tampilkan Riwayat Transaksi";
+            this.button4.TextAlign = System.Drawing.ContentAlignment.BottomRight;
+            this.button4.UseVisualStyleBackColor = true;
+            this.button4.Click += new System.EventHandler(this.button4_Click);
+            // 
             // btnCreateNewtransaction
             // 
-            this.btnCreateNewtransaction.Location = new System.Drawing.Point(12, 375);
+            this.btnCreateNewtransaction.Location = new System.Drawing.Point(12, 374);
             this.btnCreateNewtransaction.Margin = new System.Windows.Forms.Padding(2);
             this.btnCreateNewtransaction.Name = "btnCreateNewtransaction";
             this.btnCreateNewtransaction.Size = new System.Drawing.Size(115, 19);
@@ -278,7 +266,7 @@ namespace CashierWindowsForm.Views
             // 
             // btnbayar
             // 
-            this.btnbayar.Location = new System.Drawing.Point(829, 155);
+            this.btnbayar.Location = new System.Drawing.Point(829, 105);
             this.btnbayar.Name = "btnbayar";
             this.btnbayar.Size = new System.Drawing.Size(93, 25);
             this.btnbayar.TabIndex = 12;
@@ -289,7 +277,6 @@ namespace CashierWindowsForm.Views
             // tabControl
             // 
             this.tabControl.Controls.Add(this.tabDashboardCashier);
-            this.tabControl.Controls.Add(this.tabUserManagement);
             this.tabControl.Controls.Add(this.tabProductManagement);
             this.tabControl.Location = new System.Drawing.Point(12, 53);
             this.tabControl.Name = "tabControl";
@@ -297,60 +284,6 @@ namespace CashierWindowsForm.Views
             this.tabControl.ShowToolTips = true;
             this.tabControl.Size = new System.Drawing.Size(980, 496);
             this.tabControl.TabIndex = 0;
-            // 
-            // tabUserManagement
-            // 
-            this.tabUserManagement.Controls.Add(this.button3);
-            this.tabUserManagement.Controls.Add(this.button2);
-            this.tabUserManagement.Controls.Add(this.button1);
-            this.tabUserManagement.Controls.Add(this.lvwuser);
-            this.tabUserManagement.Location = new System.Drawing.Point(4, 22);
-            this.tabUserManagement.Name = "tabUserManagement";
-            this.tabUserManagement.Padding = new System.Windows.Forms.Padding(3);
-            this.tabUserManagement.Size = new System.Drawing.Size(972, 470);
-            this.tabUserManagement.TabIndex = 1;
-            this.tabUserManagement.Text = "User Management";
-            this.tabUserManagement.UseVisualStyleBackColor = true;
-            // 
-            // button3
-            // 
-            this.button3.Location = new System.Drawing.Point(540, 382);
-            this.button3.Margin = new System.Windows.Forms.Padding(2);
-            this.button3.Name = "button3";
-            this.button3.Size = new System.Drawing.Size(56, 19);
-            this.button3.TabIndex = 3;
-            this.button3.Text = "Hapus";
-            this.button3.UseVisualStyleBackColor = true;
-            // 
-            // button2
-            // 
-            this.button2.Location = new System.Drawing.Point(67, 382);
-            this.button2.Margin = new System.Windows.Forms.Padding(2);
-            this.button2.Name = "button2";
-            this.button2.Size = new System.Drawing.Size(56, 19);
-            this.button2.TabIndex = 2;
-            this.button2.Text = "Update";
-            this.button2.UseVisualStyleBackColor = true;
-            // 
-            // button1
-            // 
-            this.button1.Location = new System.Drawing.Point(6, 383);
-            this.button1.Margin = new System.Windows.Forms.Padding(2);
-            this.button1.Name = "button1";
-            this.button1.Size = new System.Drawing.Size(56, 19);
-            this.button1.TabIndex = 1;
-            this.button1.Text = "Tambah";
-            this.button1.UseVisualStyleBackColor = true;
-            // 
-            // lvwuser
-            // 
-            this.lvwuser.HideSelection = false;
-            this.lvwuser.Location = new System.Drawing.Point(2, 2);
-            this.lvwuser.Margin = new System.Windows.Forms.Padding(2);
-            this.lvwuser.Name = "lvwuser";
-            this.lvwuser.Size = new System.Drawing.Size(600, 375);
-            this.lvwuser.TabIndex = 0;
-            this.lvwuser.UseCompatibleStateImageBehavior = false;
             // 
             // lblemployee
             // 
@@ -372,17 +305,16 @@ namespace CashierWindowsForm.Views
             this.btnLogout.UseVisualStyleBackColor = true;
             this.btnLogout.Click += new System.EventHandler(this.btnLogout_Click);
             // 
-            // button4
+            // btnBrandList
             // 
-            this.button4.Location = new System.Drawing.Point(131, 375);
-            this.button4.Margin = new System.Windows.Forms.Padding(2);
-            this.button4.Name = "button4";
-            this.button4.Size = new System.Drawing.Size(156, 19);
-            this.button4.TabIndex = 14;
-            this.button4.Text = "Tampilkan Riwayat Transaksi";
-            this.button4.TextAlign = System.Drawing.ContentAlignment.BottomRight;
-            this.button4.UseVisualStyleBackColor = true;
-            this.button4.Click += new System.EventHandler(this.button4_Click);
+            this.btnBrandList.Location = new System.Drawing.Point(790, 20);
+            this.btnBrandList.Margin = new System.Windows.Forms.Padding(2);
+            this.btnBrandList.Name = "btnBrandList";
+            this.btnBrandList.Size = new System.Drawing.Size(148, 39);
+            this.btnBrandList.TabIndex = 5;
+            this.btnBrandList.Text = "List Brand";
+            this.btnBrandList.UseVisualStyleBackColor = true;
+            this.btnBrandList.Click += new System.EventHandler(this.btnBrandList_Click);
             // 
             // CashierDashboard
             // 
@@ -398,7 +330,6 @@ namespace CashierWindowsForm.Views
             this.tabDashboardCashier.ResumeLayout(false);
             this.tabDashboardCashier.PerformLayout();
             this.tabControl.ResumeLayout(false);
-            this.tabUserManagement.ResumeLayout(false);
             this.ResumeLayout(false);
             this.PerformLayout();
 
@@ -410,23 +341,15 @@ namespace CashierWindowsForm.Views
         private System.Windows.Forms.ListView lvwTransaction;
         private System.Windows.Forms.Label lblTotalText;
         private System.Windows.Forms.Label label1;
-        private System.Windows.Forms.Label lblDiscount;
         private System.Windows.Forms.TextBox txtBayar;
         private System.Windows.Forms.Label lblBayar;
-        private System.Windows.Forms.TextBox txtDiscount;
         private System.Windows.Forms.Label label2;
         private System.Windows.Forms.Button btnDelete;
         private System.Windows.Forms.Button btnSeaerhAdd;
         private System.Windows.Forms.Label lblKembali;
         private System.Windows.Forms.TabPage tabDashboardCashier;
         private System.Windows.Forms.TabControl tabControl;
-        private System.Windows.Forms.TabPage tabUserManagement;
-        private System.Windows.Forms.ListView lvwuser;
-        private System.Windows.Forms.Button button3;
-        private System.Windows.Forms.Button button2;
-        private System.Windows.Forms.Button button1;
         private System.Windows.Forms.ListView lvwproduct;
-        private System.Windows.Forms.Button btnBrand;
         private System.Windows.Forms.Button btnAddProduct;
         private System.Windows.Forms.Button btnDeleteProduct;
         private System.Windows.Forms.Button btnEditProduct;
@@ -435,5 +358,7 @@ namespace CashierWindowsForm.Views
         private System.Windows.Forms.Button btnbayar;
         private System.Windows.Forms.Button btnCreateNewtransaction;
         private System.Windows.Forms.Button button4;
+        private System.Windows.Forms.Button bnUpdate;
+        private System.Windows.Forms.Button btnBrandList;
     }
 }

@@ -56,26 +56,13 @@ namespace CashierWindowsForm.Views
             lvwproduct.Columns.Add("Price", 200, HorizontalAlignment.Center);
         }
 
-        private void InisialisasiListViewuser()
-        {
-            lvwuser.View = View.Details;
-            lvwuser.FullRowSelect = true;
-            lvwuser.GridLines = true;
-            lvwuser.Columns.Add("Name.", 150, HorizontalAlignment.Center);
-            lvwuser.Columns.Add("Email", 200, HorizontalAlignment.Center);
-            lvwuser.Columns.Add("Gender", 50, HorizontalAlignment.Left);
-            lvwuser.Columns.Add("Address", 200, HorizontalAlignment.Center);
-        }
-
         public CashierDashboard()
         {
             InitializeComponent();
 
             InisialisasiListViewCashier();
-            InisialisasiListViewuser();
             InisialisasiListViewProduct();
 
-            LoadDataEmployee();
             LoadDataProduct();
 
             var token = ConfigurationManager.AppSettings["AuthToken"];
@@ -104,24 +91,10 @@ namespace CashierWindowsForm.Views
                 EmployeeId = userId
             };
             transactionLst = transactionLstController.CreateWithReturnValue(transactionLstInput);
+            lblKembali.Text = transactionLst.PayBack.ToString();
+            txtBayar.Text = transactionLst.Pay.ToString();
         }
-        
-
-        private void LoadDataEmployee()
-        {
-            lvwuser.Items.Clear();
-            listofEmployee = employeeController.ReadAll();
-            foreach (var emp in listofEmployee)
-            {
-                var noUrut = lvwuser.Items.Count + 1;
-                var item = new ListViewItem(noUrut.ToString());
-                item.SubItems.Add(emp.Name);
-                item.SubItems.Add(emp.Email);
-                item.SubItems.Add(emp.Gender);
-                item.SubItems.Add(emp.Address);
-                lvwuser.Items.Add(item);
-            }
-        }
+       
 
         private void LoadDataProduct()
         {
@@ -140,37 +113,15 @@ namespace CashierWindowsForm.Views
             }
         }
 
-        private void LoadDataTransactionLst()
-        {
-            lvwTransaction.Items.Clear();
-            listOfTransactionLst = transactionLstController.GetAll();
-
-            Decimal subtotal = 0;
-
-            foreach (var transaction in listOfTransaction)
-            {
-                var noUrut = lvwTransaction.Items.Count + 1;
-                var item = new ListViewItem(noUrut.ToString());
-                item.Tag = transaction.Id;
-                item.SubItems.Add(transaction.Product.Name);
-                item.SubItems.Add(transaction.Product.Price.ToString());
-                item.SubItems.Add(transaction.Quantity.ToString());
-                item.SubItems.Add(transaction.SubTotal.ToString());
-
-                subtotal += transaction.SubTotal;
-                lblTotalText.Text = subtotal.ToString();
-
-
-                lvwTransaction.Items.Add(item);
-            }
-        }
-
         private void LoadDataTransaction()
         {
             lvwTransaction.Items.Clear();
             listOfTransaction = transactionController.GetAllTransactionByTransactionLstID(transactionLst.Id);
 
             Decimal subtotal = 0;
+            lblTotalText.Text = "Rp. 0";
+            lblKembali.Text = "Rp. 0";
+
 
             foreach (var transaction in listOfTransaction)
             {
@@ -183,8 +134,9 @@ namespace CashierWindowsForm.Views
                 item.SubItems.Add(transaction.SubTotal.ToString());
 
                 subtotal += transaction.SubTotal;
-                lblTotalText.Text = subtotal.ToString();
-
+                lblTotalText.Text = String.Format("Rp. {0}", transaction.SubTotal.ToString());
+                txtBayar.Text = transactionLst.Pay.ToString();
+                lblKembali.Text = String.Format("Rp. {0}", transactionLst.PayBack.ToString());
 
                 lvwTransaction.Items.Add(item);
             }
@@ -193,6 +145,7 @@ namespace CashierWindowsForm.Views
         private void OnCreateEventHandlerCashier(Transaction transaction)
         {
             LoadDataTransaction();
+            LoadDataProduct();
         }
 
         private void OnCreateEventHandlerProduct(Product product)
@@ -209,6 +162,18 @@ namespace CashierWindowsForm.Views
             itemRow.SubItems[2].Text = product.Brand.Name.ToString();
             itemRow.SubItems[3].Text = product.Quantity.ToString();
             itemRow.SubItems[4].Text = product.Price.ToString();
+        }
+
+        private void OnUpdateEventHandlerTransaction(Transaction transaction)
+        {
+            LoadDataTransaction();
+            LoadDataProduct();
+        }
+
+        private void OnSelectedEventHandlerProduct(TransactionLst _transactionLst)
+        {
+            transactionLst = _transactionLst;
+            LoadDataTransaction();
         }
 
         private void btnSeaerhAdd_Click(object sender, EventArgs e)
@@ -284,7 +249,7 @@ namespace CashierWindowsForm.Views
         private void btnbayar_Click(object sender, EventArgs e)
         {
             var bayar = Decimal.Parse(txtBayar.Text);
-            var total = Decimal.Parse(lblTotalText.Text);
+            var total = Decimal.Parse(transactionLst.TotalPrice.ToString());
 
             if (bayar < total)
             {
@@ -292,7 +257,14 @@ namespace CashierWindowsForm.Views
                    MessageBoxButtons.OK, MessageBoxIcon.Exclamation);
             }else
             {
-                lblKembali.Text = string.Format("Rp. {0}", (total - bayar).ToString());
+                transactionLst.PayBack = bayar - total;
+                transactionLst.Pay = bayar;
+                var result = transactionLstController.Update(transactionLst);
+                if (result > 0)
+                {
+                    MessageBox.Show("Suksess","Suksess",MessageBoxButtons.OK);
+                }
+                lblKembali.Text = string.Format("Rp. {0}", (transactionLst.PayBack).ToString());
             }
         }
 
@@ -305,8 +277,56 @@ namespace CashierWindowsForm.Views
         private void button4_Click(object sender, EventArgs e)
         {
             FrmTransactionHistory frmEntry = new FrmTransactionHistory("View History Transaction", transactionLstController);
-            //frmEntry.OnCreate += OnCreateEventHandlerProduct;
+            frmEntry.OnSelected += OnSelectedEventHandlerProduct;
             frmEntry.ShowDialog();
+        }
+
+        private void btnDelete_Click(object sender, EventArgs e)
+        {
+            if (lvwTransaction.SelectedItems.Count > 0)
+            {
+                var confirmation = MessageBox.Show("Apakah data transaction ingin dihapus?", "Konfirmasi",
+                    MessageBoxButtons.YesNo, MessageBoxIcon.Exclamation);
+
+                if (confirmation == DialogResult.Yes)
+                {
+                    int id = (int)lvwTransaction.SelectedItems[0].Tag; ;
+                    var result = transactionController.Delete(id);
+
+                    if (result > 0)
+                    {
+                        LoadDataTransaction();
+                    }
+                }
+            }
+            else // Data not selected
+            {
+                MessageBox.Show("Data transaction belum dipilih !!!", "Peringatan",
+                    MessageBoxButtons.OK, MessageBoxIcon.Exclamation);
+            }
+        }
+
+        private void bnUpdate_Click(object sender, EventArgs e)
+        {
+            if (lvwTransaction.SelectedItems.Count > 0)
+            {
+                Transaction transaction = listOfTransaction[lvwTransaction.SelectedIndices[0]];
+
+                FrmEntryTransaction frmEntry = new FrmEntryTransaction("Ubah Data", transaction, transactionController, transactionLst);
+                frmEntry.OnUpdate += OnUpdateEventHandlerTransaction;
+                frmEntry.ShowDialog();
+            }
+            else
+            {
+                MessageBox.Show("Data belum dipilih !!!", "Peringatan",
+                    MessageBoxButtons.OK, MessageBoxIcon.Exclamation);
+            }
+        }
+
+        private void btnBrandList_Click(object sender, EventArgs e)
+        {
+            FrmBrandList frmBrandList = new FrmBrandList("Data Brand");
+            frmBrandList.ShowDialog();
         }
     }
 }
